@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Malaysia, 17 Dec 2026</title>
+<style>
+  :root{
+    --ink:#1c2521;
+    --paper:#f6f1e4;
+    --jungle:#1f4d3d;
+    --jungle-deep:#143329;
+    --batik:#c1452e;
+    --batik-deep:#9b3322;
+    --gold:#d6a23c;
+    --steel:#aab6b2;
+    --line: rgba(28,37,33,0.14);
+  }
+
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  html{ scroll-behavior:smooth; }
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family: 'Iowan Old Style', 'Palatino Linotype', Georgia, serif;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  .display{
+    font-family: 'Futura', 'Trebuchet MS', 'Avenir Next', sans-serif;
+    letter-spacing:0.02em;
+  }
+
+  /* ---------- NAV ---------- */
+  .navbar{
+    position:sticky;
+    top:0;
+    z-index:50;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding: 0.9rem 6vw;
+    background: rgba(20,51,41,0.92);
+    backdrop-filter: blur(6px);
+    border-bottom: 1px solid rgba(246,241,228,0.14);
+  }
+  .nav-mark{
+    font-family:'Futura','Trebuchet MS',sans-serif;
+    font-weight:700;
+    letter-spacing:0.1em;
+    text-transform:uppercase;
+    font-size:0.78rem;
+    color: var(--paper);
+  }
+  .nav-mark span{ color: var(--gold); }
+  .nav-links{
+    display:flex;
+    gap: clamp(1.2rem, 3vw, 2.4rem);
+    list-style:none;
+    margin:0; padding:0;
+  }
+  .nav-links a{
+    font-family:'Futura','Trebuchet MS',sans-serif;
+    font-size:0.72rem;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color: rgba(246,241,228,0.78);
+    text-decoration:none;
+    padding-bottom: 0.2rem;
+    border-bottom: 1px solid transparent;
+    transition: color 0.2s ease, border-color 0.2s ease;
+  }
+  .nav-links a:hover,
+  .nav-links a.active{
+    color: var(--gold);
+    border-bottom-color: var(--gold);
+  }
+  .nav-toggle{
+    display:none;
+    background:none;
+    border:1px solid rgba(246,241,228,0.4);
+    color: var(--paper);
+    font-family:'Futura','Trebuchet MS',sans-serif;
+    font-size:0.7rem;
+    letter-spacing:0.1em;
+    text-transform:uppercase;
+    padding:0.4rem 0.7rem;
+    border-radius:2px;
+    cursor:pointer;
+  }
+
+  @media (max-width: 640px){
+    .nav-toggle{ display:inline-block; }
+    .nav-links{
+      position:absolute;
+      top:100%; left:0; right:0;
+      flex-direction:column;
+      gap:0;
+      background: rgba(20,51,41,0.97);
+      max-height:0;
+      overflow:hidden;
+      transition: max-height 0.3s ease;
+      border-bottom: 1px solid rgba(246,241,228,0.14);
+    }
+    .nav-links.open{ max-height:240px; }
+    .nav-links a{
+      padding: 0.9rem 6vw;
+      width:100%;
+      border-bottom: 1px solid rgba(246,241,228,0.08);
+    }
+  }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    position:relative;
+    min-height:78vh;
+    background:
+      linear-gradient(180deg, rgba(10,15,13,0.45) 0%, rgba(10,15,13,0.55) 50%, rgba(10,15,13,0.92) 100%),
+      url('https://justbooktheticket.travel/wp-content/uploads/2019/04/Petronas_Towers_Kuala_Lumpur-1920x1305.jpeg') center 35%/cover no-repeat;
+    overflow:hidden;
+    display:flex;
+    flex-direction:column;
+    justify-content:flex-end;
+  }
+  .hero::before{
+    content:"";
+    position:absolute; inset:0;
+    background:
+      radial-gradient(circle at 18% 20%, rgba(214,162,60,0.16), transparent 45%),
+      radial-gradient(circle at 85% 75%, rgba(193,69,46,0.18), transparent 50%);
+    pointer-events:none;
+  }
+
+  .batik-rule{
+    height:8px;
+    width:100%;
+    background: repeating-linear-gradient(
+      -45deg,
+      var(--batik) 0 14px,
+      var(--gold) 14px 22px,
+      var(--jungle) 22px 36px
+    );
+    flex-shrink:0;
+  }
+
+  .hero-inner{
+    position:relative;
+    z-index:2;
+    padding: 6vh 6vw 5vh;
+    color: var(--paper);
+  }
+
+  .eyebrow{
+    font-family:'Futura','Trebuchet MS',sans-serif;
+    text-transform:uppercase;
+    letter-spacing:0.32em;
+    font-size:0.72rem;
+    color: var(--gold);
+    margin:0 0 0.9rem;
+  }
+
+  .hero h1{
+    margin:0;
+    font-size: clamp(2.6rem, 7vw, 5.4rem);
+    line-height:0.98;
+    font-weight:400;
+    font-style:italic;
+    letter-spacing:-0.01em;
+  }
+  .hero h1 span{ color: var(--batik); font-style:normal; font-family:'Futura','Trebuchet MS',sans-serif; font-weight:700; }
+
+  .hero-sub{
+    margin: 0.9rem 0 2.6rem;
+    max-width: 38ch;
+    font-size: 1.05rem;
+    color: rgba(246,241,228,0.78);
+  }
+
+  /* countdown */
+  .countdown{
+    display:flex;
+    flex-wrap:wrap;
+    gap: clamp(0.8rem, 2vw, 1.6rem);
+  }
+  .count-unit{
+    background: rgba(246,241,228,0.06);
+    border:1px solid rgba(246,241,228,0.22);
+    border-radius: 4px;
+    padding: 1.1rem 1.4rem;
+    min-width: 92px;
+    text-align:center;
+    backdrop-filter: blur(2px);
+  }
+  .count-num{
+    font-family:'Futura','Trebuchet MS',sans-serif;
+    font-weight:700;
+    font-size: clamp(2rem, 4.5vw, 3rem);
+    color: var(--paper);
+    line-height:1;
+    font-variant-numeric: tabular-nums;
+  }
+  .count-label{
+    margin-top:0.4rem;
+    font-family:'Futura','Trebuchet MS',sans-serif;
+    text-transform:uppercase;
+    letter-spacing:0.18em;
+    font-size:0.66rem;
+    color: var(--gold);
+  }
+
+  .countdown.arrived .count-unit{ border-color: var(--gold); }
+
+  .arrived-banner{
+    display:none;
+    font-family:'Futura','Trebuchet MS',sans-serif;
+    font-size: clamp(1.4rem, 3vw, 2rem);
+    color: var(--gold);
+    font-weight:700;
+    letter-spacing:0.02em;
+  }
+
+  /* ---------- GALLERY ---------- */
+  .gallery-section{
+    padding: 4.5rem 6vw 5rem;
+    background: var(--paper);
+    scroll-margin-top: 70px;
+  }
+  .section-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:baseline;
+    gap:1rem;
+    flex-wrap:wrap;
+    margin-bottom: 2.2rem;
+    border-bottom: 1px solid var(--line);
+    padding-bottom: 1rem;
+  }
+  .section-head h2{
+    font-style:italic;
+    font-weight:400;
+    font-size: clamp(1.7rem, 3.4vw, 2.4rem);
+    margin:0;
+  }
+  .section-head p{
+    font-family:'Futura','Trebuchet MS',sans-serif;
+    font-size:0.78rem;
+    letter-spacing:0.1em;
+    text-transform:uppercase;
+    color: var(--jungle);
+    margin:0;
+  }
+
+  .gallery-grid{
+    display:grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 0.9rem;
+  }
+  .gallery-card{
+    position:relative;
+    aspect-ratio: 3/4;
+    overflow:hidden;
+    border-radius: 3px;
+    background: var(--steel);
+  }
+  .gallery-card img{
+    width:100%; height:100%;
+    object-fit:cover;
+    display:block;
+    transition: transform 0.6s ease;
+    filter: saturate(1.05);
+  }
+  .gallery-card:hover img{ transform: scale(1.06); }
+  .gallery-cap{
+    position:absolute; left:0; right:0; bottom:0;
+    padding: 0.7rem 0.8rem 0.6rem;
+    background: linear-gradient(to top, rgba(20,26,23,0.85), transparent);
+    color: var(--paper);
+    font-family:'Futura','Trebuchet MS',sans-serif;
+    font-size:0.72rem;
+    letter-spacing:0.06em;
+    text-transform:uppercase;
+  }
+
+  @media (max-width: 900px){
+    .gallery-grid{ grid-template-columns: repeat(2, 1fr); }
+  }
+
+  /* ---------- ITINERARY ---------- */
+  .itinerary-section{
+    background: var(--jungle-deep);
+    color: var(--paper);
+    padding: 5rem 6vw 6rem;
+    scroll-margin-top: 70px;
+  }
+  .itinerary-section .section-head{ border-bottom-color: rgba(246,241,228,0.18); }
+  .itinerary-section .section-head h2{ color: var(--paper); }
+  .itinerary-section .section-head p{ color: var(--gold); }
+
+  .timeline{
+    position:relative;
+    max-width: 760px;
+    margin: 0 auto;
+  }
+  .timeline::before{
+    content:"";
+    position:absolute;
+    left: 1px;
+    top:6px; bottom:6px;
+    width:1px;
+    background: rgba(246,241,228,0.25);
+  }
+
+  .leg{
+    position:relative;
+    padding: 0 0 0 2.4rem;
+    margin-bottom: 1.9rem;
+  }
+  .leg::before{
+    content:"";
+    position:absolute;
+    left:-4px; top:6px;
+    width:9px; height:9px;
+    border-radius:50%;
+    background: var(--gold);
+    border: 2px solid var(--jungle-deep);
+  }
+
+  .leg-card{
+    background: rgba(246,241,228,0.04);
+    border:1px solid rgba(246,241,228,0.16);
+    border-radius:4px;
+    padding: 1.1rem 1.3rem;
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    gap:1rem;
+    flex-wrap:wrap;
+  }
+
+  .leg-dates{
+    font-family:'Futura','Trebuchet MS',sans-serif;
+    font-size:0.7rem;
+    letter-spacing:0.12em;
+    text-transform:uppercase;
+    color: var(--gold);
+    margin:0 0 0.3rem;
+  }
+  .leg-place{
+    font-style:italic;
+    font-size:1.35rem;
+    margin:0 0 0.5rem;
+    display:flex;
+    align-items:center;
+    gap:0.5rem;
+  }
+  .leg-icons{
+    display:flex;
+    gap:0.4rem;
+  }
+  .icon-pill{
+    display:inline-flex;
+    align-items:center;
+    gap:0.3rem;
+    font-family:'Futura','Trebuchet MS',sans-serif;
+    font-size:0.62rem;
+    letter-spacing:0.05em;
+    text-transform:uppercase;
+    background: rgba(214,162,60,0.16);
+    color: var(--gold);
+    border:1px solid rgba(214,162,60,0.4);
+    padding: 0.22rem 0.5rem;
+    border-radius:20px;
+  }
+  .icon-pill svg{ width:12px; height:12px; flex-shrink:0; }
+
+  .leg-link{
+    align-self:center;
+    font-family:'Futura','Trebuchet MS',sans-serif;
+    font-size:0.72rem;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    color: var(--paper);
+    text-decoration:none;
+    border:1px solid var(--paper);
+    padding: 0.55rem 1rem;
+    border-radius:2px;
+    white-space:nowrap;
+    transition: background 0.2s ease, color 0.2s ease;
+  }
+  .leg-link:hover{ background: var(--paper); color: var(--jungle-deep); }
+
+  .leg.nye::before{
+    background: var(--batik);
+    width:13px; height:13px; left:-6px;
+    box-shadow: 0 0 0 4px rgba(193,69,46,0.25);
+  }
+  .leg.nye .leg-card{
+    background: linear-gradient(135deg, rgba(193,69,46,0.22), rgba(214,162,60,0.12));
+    border-color: var(--batik);
+  }
+  .nye-flag{
+    font-family:'Futura','Trebuchet MS',sans-serif;
+    font-weight:700;
+    font-size:0.95rem;
+    letter-spacing:0.04em;
+    color: var(--paper);
+    background: var(--batik);
+    padding: 0.3rem 0.7rem;
+    border-radius:2px;
+    margin-bottom:0.6rem;
+    display:inline-block;
+  }
+
+  footer{
+    text-align:center;
+    padding: 2.2rem 1rem;
+    background: var(--jungle-deep);
+    color: rgba(246,241,228,0.45);
+    font-family:'Futura','Trebuchet MS',sans-serif;
+    font-size:0.7rem;
+    letter-spacing:0.1em;
+    text-transform:uppercase;
+    border-top:1px solid rgba(246,241,228,0.1);
+  }
+
+  @media (max-width:640px){
+    .leg-card{ flex-direction:column; align-items:stretch; }
+    .leg-link{ text-align:center; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="navbar">
+  <span class="nav-mark">Malaysia <span>2026/27</span></span>
+  <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="navLinks">Menu</button>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#home">Home</a></li>
+    <li><a href="#cities">Cities</a></li>
+    <li><a href="#itinerary">Itinerary</a></li>
+  </ul>
+</nav>
+
+<section class="hero" id="home">
+  <div class="hero-inner">
+    <p class="eyebrow">A Journey Across Peninsular Malaysia</p>
+    <h1>17 <span>DEC</span> 2026</h1>
+    <p class="hero-sub">Towers, limestone hills, street art, padi fields and island shorelines — twenty-three days, five cities, one long exhale.</p>
+    <div class="countdown" id="countdown">
+      <div class="count-unit"><div class="count-num" id="cd-days">--</div><div class="count-label">Days</div></div>
+      <div class="count-unit"><div class="count-num" id="cd-hours">--</div><div class="count-label">Hours</div></div>
+      <div class="count-unit"><div class="count-num" id="cd-mins">--</div><div class="count-label">Mins</div></div>
+      <div class="count-unit"><div class="count-num" id="cd-secs">--</div><div class="count-label">Secs</div></div>
+    </div>
+    <p class="arrived-banner" id="arrived-banner">Selamat datang — we're in Malaysia! 🇲🇾</p>
+  </div>
+  <div class="batik-rule"></div>
+</section>
+
+<section class="gallery-section" id="cities">
+  <div class="section-head">
+    <h2>Five Cities, One Trip</h2>
+    <p>The Itinerary in Pictures</p>
+  </div>
+  <div class="gallery-grid">
+    <div class="gallery-card">
+      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQwMDZUrR0BjRnMsXSydU7DC4CvEkI4Bx0gjtAP2xT1nA&s=10" alt="Kuala Lumpur">
+      <div class="gallery-cap">Kuala Lumpur</div>
+    </div>
+    <div class="gallery-card">
+      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRAGn2hECC0NGufeIKeewpCeynQiCQolriB6bNebIpPCoaR91YNBRANpaHo&s=10" alt="Ipoh cave temple">
+      <div class="gallery-cap">Ipoh</div>
+    </div>
+    <div class="gallery-card">
+      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRDTtaWYvqbNpjhVBSs5N0eoVDzwLURR8ajLrnZwBm4sw&s=10" alt="Penang">
+      <div class="gallery-cap">Penang</div>
+    </div>
+    <div class="gallery-card">
+      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT7xvfNh7ngwb2Dy5S99MqoGJA3Np8mjxeodrAF6o93dg&s=10" alt="Langkawi">
+      <div class="gallery-cap">Langkawi</div>
+    </div>
+    <div class="gallery-card">
+      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQpIBIRkMGHnb4HR0LfS9vJjIcEwr90BZ2xvx-CAjmBVQ&s=10" alt="Melaka">
+      <div class="gallery-cap">Melaka</div>
+    </div>
+  </div>
+</section>
+
+<section class="itinerary-section" id="itinerary">
+  <div class="section-head">
+    <h2>The Route</h2>
+    <p>18 Dec 2026 – 8 Jan 2027</p>
+  </div>
+
+  <div class="timeline">
+
+    <div class="leg">
+      <div class="leg-card">
+        <div>
+          <p class="leg-dates">18 Dec — 22 Dec</p>
+          <p class="leg-place">Kuala Lumpur</p>
+        </div>
+        <a class="leg-link" href="https://www.booking.com/hotel/my/suite-axo-by-luxury-trx-tower.en-gb.html" target="_blank" rel="noopener">View Stay →</a>
+      </div>
+    </div>
+
+    <div class="leg">
+      <div class="leg-card">
+        <div>
+          <p class="leg-dates">22 Dec — 24 Dec</p>
+          <p class="leg-place">Ipoh</p>
+        </div>
+        <a class="leg-link" href="https://www.booking.com/hotel/my/ipoh-icc-premium-suites-by-iwh-suites.en-gb.html" target="_blank" rel="noopener">View Stay →</a>
+      </div>
+    </div>
+
+    <div class="leg">
+      <div class="leg-card">
+        <div>
+          <p class="leg-dates">24 Dec — 27 Dec</p>
+          <p class="leg-place">Penang
+            <span class="leg-icons">
+              <span class="icon-pill" title="Breakfast included">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 11h16a2 2 0 0 1 2 2 6 6 0 0 1-6 6H7a6 6 0 0 1-6-6 2 2 0 0 1 2-2Z"/><path d="M5 11V8a2 2 0 0 1 2-2h1"/><path d="M3 18h18"/></svg>
+                Breakfast
+              </span>
+            </span>
+          </p>
+        </div>
+        <a class="leg-link" href="https://www.booking.com/hotel/my/museum.en-gb.html" target="_blank" rel="noopener">View Stay →</a>
+      </div>
+    </div>
+
+    <div class="leg">
+      <div class="leg-card">
+        <div>
+          <p class="leg-dates">27 Dec — 30 Dec</p>
+          <p class="leg-place">Langkawi
+            <span class="leg-icons">
+              <span class="icon-pill" title="Breakfast included">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 11h16a2 2 0 0 1 2 2 6 6 0 0 1-6 6H7a6 6 0 0 1-6-6 2 2 0 0 1 2-2Z"/><path d="M5 11V8a2 2 0 0 1 2-2h1"/><path d="M3 18h18"/></svg>
+                Breakfast
+              </span>
+            </span>
+          </p>
+        </div>
+        <a class="leg-link" href="https://www.booking.com/hotel/my/villa-paddy.en-gb.html" target="_blank" rel="noopener">View Stay →</a>
+      </div>
+    </div>
+
+    <div class="leg nye">
+      <div class="leg-card">
+        <div>
+          <span class="nye-flag">✦ New Year 2027 !!</span>
+          <p class="leg-dates">30 Dec — 1 Jan</p>
+          <p class="leg-place">Kuala Lumpur</p>
+        </div>
+        <a class="leg-link" href="https://www.booking.com/hotel/my/sky-suites-kuala-lumpur-malaysia.en-gb.html" target="_blank" rel="noopener">View Stay →</a>
+      </div>
+    </div>
+
+    <div class="leg">
+      <div class="leg-card">
+        <div>
+          <p class="leg-dates">1 Jan — 3 Jan</p>
+          <p class="leg-place">Kuala Lumpur</p>
+        </div>
+        <a class="leg-link" href="https://www.booking.com/hotel/my/hospitality-kuala-lumpur-by-klcc.en-gb.html" target="_blank" rel="noopener">View Stay →</a>
+      </div>
+    </div>
+
+    <div class="leg">
+      <div class="leg-card">
+        <div>
+          <p class="leg-dates">3 Jan — 5 Jan</p>
+          <p class="leg-place">Melaka
+            <span class="leg-icons">
+              <span class="icon-pill" title="Breakfast included">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 11h16a2 2 0 0 1 2 2 6 6 0 0 1-6 6H7a6 6 0 0 1-6-6 2 2 0 0 1 2-2Z"/><path d="M5 11V8a2 2 0 0 1 2-2h1"/><path d="M3 18h18"/></svg>
+                Breakfast
+              </span>
+            </span>
+          </p>
+        </div>
+        <a class="leg-link" href="https://www.booking.com/hotel/my/seri-costa-melaka.en-gb.html" target="_blank" rel="noopener">View Stay →</a>
+      </div>
+    </div>
+
+    <div class="leg">
+      <div class="leg-card">
+        <div>
+          <p class="leg-dates">5 Jan — 8 Jan</p>
+          <p class="leg-place">Kuala Lumpur
+            <span class="leg-icons">
+              <span class="icon-pill" title="Breakfast included">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 11h16a2 2 0 0 1 2 2 6 6 0 0 1-6 6H7a6 6 0 0 1-6-6 2 2 0 0 1 2-2Z"/><path d="M5 11V8a2 2 0 0 1 2-2h1"/><path d="M3 18h18"/></svg>
+                Breakfast
+              </span>
+            </span>
+          </p>
+        </div>
+        <a class="leg-link" href="https://www.booking.com/hotel/my/viia-residence-mid-valley-kl.en-gb.html" target="_blank" rel="noopener">View Stay →</a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<footer>Selamat Jalan — Malaysia, 17 Dec 2026 → 8 Jan 2027</footer>
+
+<script>
+  const targetDate = new Date("2026-12-17T00:00:00");
+
+  const daysEl = document.getElementById('cd-days');
+  const hoursEl = document.getElementById('cd-hours');
+  const minsEl = document.getElementById('cd-mins');
+  const secsEl = document.getElementById('cd-secs');
+  const countdownEl = document.getElementById('countdown');
+  const arrivedEl = document.getElementById('arrived-banner');
+
+  function pad(n){ return String(n).padStart(2, '0'); }
+
+  function tick(){
+    const now = new Date();
+    const diff = targetDate - now;
+
+    if (diff <= 0){
+      countdownEl.classList.add('arrived');
+      daysEl.textContent = '00';
+      hoursEl.textContent = '00';
+      minsEl.textContent = '00';
+      secsEl.textContent = '00';
+      arrivedEl.style.display = 'block';
+      return;
+    }
+
+    const totalSeconds = Math.floor(diff / 1000);
+    const days = Math.floor(totalSeconds / 86400);
+    const hours = Math.floor((totalSeconds % 86400) / 3600);
+    const mins = Math.floor((totalSeconds % 3600) / 60);
+    const secs = totalSeconds % 60;
+
+    daysEl.textContent = days;
+    hoursEl.textContent = pad(hours);
+    minsEl.textContent = pad(mins);
+    secsEl.textContent = pad(secs);
+  }
+
+  tick();
+  setInterval(tick, 1000);
+
+  // Mobile nav toggle
+  const navToggle = document.getElementById('navToggle');
+  const navLinks = document.getElementById('navLinks');
+  navToggle.addEventListener('click', () => {
+    const isOpen = navLinks.classList.toggle('open');
+    navToggle.setAttribute('aria-expanded', isOpen);
+  });
+  navLinks.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => {
+      navLinks.classList.remove('open');
+      navToggle.setAttribute('aria-expanded', 'false');
+    });
+  });
+
+  // Active link highlight on scroll
+  const sections = ['home', 'cities', 'itinerary'].map(id => document.getElementById(id));
+  const navAnchors = Array.from(navLinks.querySelectorAll('a'));
+
+  function setActiveLink(){
+    let current = sections[0].id;
+    const scrollPos = window.scrollY + 100;
+    sections.forEach(sec => {
+      if (sec.offsetTop <= scrollPos) current = sec.id;
+    });
+    navAnchors.forEach(a => {
+      a.classList.toggle('active', a.getAttribute('href') === '#' + current);
+    });
+  }
+
+  window.addEventListener('scroll', setActiveLink);
+  setActiveLink();
+</script>
+
+</body>
+</html>
